@@ -18,6 +18,6 @@ setup(
         'py-trello==0.2.3-dev'
     ],
     dependency_links=[
-        'git+https://github.com/sarumont/py-trello.git#egg=trello-0.2.3-dev'
+        'git+https://github.com/sarumont/py-trello.git#egg=py-trello-0.2.3-dev'
     ]
 )
