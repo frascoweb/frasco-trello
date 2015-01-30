@@ -15,7 +15,9 @@ setup(
     install_requires=[
         # 'frasco',
         # 'frasco-users',
-        'py-trello==0.2.3-dev'
+        'py-trello==0.2.3-dev',
+        'python-dateutil==2.4.0',
+        'requests_oauthlib'
     ],
     dependency_links=[
         'git+https://github.com/sarumont/py-trello.git#egg=py-trello-0.2.3-dev'
