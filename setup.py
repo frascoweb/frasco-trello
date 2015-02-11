@@ -20,6 +20,6 @@ setup(
         'requests_oauthlib'
     ],
     dependency_links=[
-        'git+https://github.com/sarumont/py-trello.git#egg=py-trello-0.2.3-dev'
+        'git+https://github.com/sarumont/py-trello.git@84dcbefbd159abde52c57df8550237c0c21c5c71#egg=py-trello-0.2.3-dev'
     ]
 )
