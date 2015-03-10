@@ -13,8 +13,7 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        # 'frasco',
-        # 'frasco-users',
+        'frasco-users',
         'py-trello==0.2.3-dev',
         'python-dateutil==2.4.0',
         'requests_oauthlib'
