@@ -11,29 +11,31 @@ def create_blueprint(app):
     @bp.route('/login/trello')
     def login():
         callback_url = url_for('.callback', next=request.args.get('next'), _external=True)
-        return feature.oauth.authorize(callback_url,
+        return feature.api.authorize(callback_url,
             name=feature.options["app_name"],
             scope=feature.options["scope"],
             expiration=feature.options["expiration"])
 
     @bp.route('/login/trello/callback')
     def callback():
-        resp = feature.oauth.authorized_response()
+        resp = feature.api.authorized_response()
         if resp is None:
             flash(feature.options["user_denied_login_message"], "error")
             return redirect(url_for("users.login"))
 
-        client = feature.create_client(resp['oauth_token'], resp['oauth_token_secret'])
-        member = client.get_member('me')
+        me = feature.api.get('members/me',
+            headers={'Accept': 'application/json'},
+            data={'key': feature.options['api_key'], 'token': resp['oauth_token']},
+            token=resp['oauth_token'])
 
         attrs = {"trello_oauth_token": resp['oauth_token'],
                  "trello_oauth_token_secret": resp['oauth_token_secret'],
-                 "trello_user_id": member.id,
-                 "trello_username": member.username}
+                 "trello_user_id": me.data['id'],
+                 "trello_username": me.data['username']}
         defaults = {}
         if feature.options["use_username"]:
-            defaults[users.options["username_column"]] = member.username
+            defaults[users.options["username_column"]] = me.data['username']
 
-        return users.oauth_login("trello", "trello_user_id", member.id, attrs, defaults)
+        return users.oauth_login("trello", "trello_user_id", me.data['id'], attrs, defaults)
 
     return bp

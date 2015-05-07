@@ -1,7 +1,6 @@
 from frasco import Feature, action, flash, url_for, hook, lazy_translate
 from frasco_users import current_user
 from .blueprint import create_blueprint
-from trello import TrelloClient
 
 
 class TrelloFeature(Feature):
@@ -19,16 +18,16 @@ class TrelloFeature(Feature):
         if not self.options["app_name"]:
             self.options["app_name"] = app.config.get('TITLE', 'My App')
 
-        self.oauth = app.features.users.create_oauth_app("trello",
-            base_url='https://trello.com/1/',
-            request_token_url="OAuthGetRequestToken",
-            access_token_url='OAuthGetAccessToken',
-            authorize_url='OAuthAuthorizeToken',
+        self.api = app.features.users.create_oauth_app("trello",
+            base_url='https://api.trello.com/1/',
+            request_token_url="https://trello.com/1/OAuthGetRequestToken",
+            access_token_url='https://trello.com/1/OAuthGetAccessToken',
+            authorize_url='https://trello.com/1/OAuthAuthorizeToken',
             consumer_key=self.options["api_key"],
             consumer_secret=self.options["api_secret"],
             login_view="trello_login.login")
 
-        @self.oauth.tokengetter
+        @self.api.tokengetter
         def token_getter(token=None):
             return None
             if not current_user.is_authenticated() or not current_user.trello_oauth_token:
@@ -40,10 +39,3 @@ class TrelloFeature(Feature):
             trello_oauth_token_secret=str,
             trello_user_id=dict(type=str, index=True),
             trello_username=dict(type=str, index=True))
-
-    def create_client(self, token=None, token_secret=None):
-        return TrelloClient(
-            api_key=self.options["api_key"],
-            api_secret=self.options["api_secret"],
-            token=token or current_user.trello_oauth_token,
-            token_secret=token_secret or current_user.trello_oauth_token_secret)
