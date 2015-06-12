@@ -33,7 +33,7 @@ def create_blueprint(app):
                  "trello_user_id": me.data['id'],
                  "trello_username": me.data['username']}
         defaults = {}
-        if feature.options["use_username"]:
+        if feature.options["use_username"] and users.options['email_column'] != users.options['username_column']:
             defaults[users.options["username_column"]] = me.data['username']
 
         return users.oauth_login("trello", "trello_user_id", me.data['id'], attrs, defaults)

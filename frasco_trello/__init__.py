@@ -10,7 +10,7 @@ class TrelloFeature(Feature):
     defaults = {"app_name": None,
                 "scope": "read",
                 "expiration": "30days",
-                "use_username": False,
+                "use_username": True,
                 "user_denied_login_message": lazy_translate("Login via Trello was denied")}
 
     def init_app(self, app):
