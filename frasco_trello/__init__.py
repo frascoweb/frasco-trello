@@ -30,7 +30,7 @@ class TrelloFeature(Feature):
         @self.api.tokengetter
         def token_getter(token=None):
             return None
-            if not current_user.is_authenticated() or not current_user.trello_oauth_token:
+            if not current_user.is_authenticated or not current_user.trello_oauth_token:
                 return
             return (current_user.trello_oauth_token, current_user.trello_oauth_token_secret)
 

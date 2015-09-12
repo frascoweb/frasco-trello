@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='frasco-trello',
-    version='0.3',
+    version='0.4',
     url='http://github.com/frascoweb/frasco-trello',
     license='MIT',
     author='Maxime Bouroumeau-Fuseau',
